@@ -9,7 +9,7 @@ describe('Error Custom', () => {
     const error = new ErrorCustom('Error Message', 400, 1000);
     expect(error).to.be.instanceof(Object);
     expect(error.message).to.equal('Error Message');
-    expect(error.code).to.equal(400);
+    expect(error.statusCode).to.equal(400);
     expect(error.errorCode).to.equal(1000);
     expect(error.manuallyThrown).to.be.true;
   });

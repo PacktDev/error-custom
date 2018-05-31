@@ -1,4 +1,4 @@
-# error-code
+# error-custom
 
 Extends the JavaScript Error object with custom properties.
 

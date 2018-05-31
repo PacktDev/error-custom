@@ -1,6 +1,9 @@
 class ErrorCustom extends Error {
   /**
-   * Calls parent constructor to set the error message and statusCode to 400
+   * Error Constructor
+   *
+   * Calls parent constructor to set the error message and
+   * adds code, errorCode and manuallyThrown custom properties.
    *
    * @param {string} message
    * Error message to set on the Error object
@@ -13,9 +16,9 @@ class ErrorCustom extends Error {
    *
    * @return {void}
    */
-  constructor(message, statusCode = 400, errorCode) {
+  constructor(message, statusCode, errorCode) {
     super(message);
-    this.code = statusCode;
+    this.statusCode = statusCode;
     this.errorCode = errorCode;
     this.manuallyThrown = true;
   }
