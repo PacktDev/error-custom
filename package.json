@@ -1,10 +1,10 @@
 {
-  "name": "@packt/serverless-service-model",
+  "name": "@packt/error-custom",
   "version": "0.0.1",
-  "description": "A service model for the Serverless Framework",
+  "description": "Extends the JavaScript Error object with custom properties.",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:packt-internal/serverless-service-model.git"
+    "url": "git@bitbucket.org:packt-internal/error-custom.git"
   },
   "main": "dist/index.js",
   "sideEffects": false,
@@ -30,11 +30,7 @@
     }
   ],
   "license": "Apache-2.0",
-  "homepage": "https://bitbucket.org/packt-internal/serverless-service-model#readme",
-  "dependencies": {
-    "joi": "13.2.0",
-    "sequelize": "4.37.7"
-  },
+  "homepage": "https://bitbucket.org/packt-internal/error-custom#readme",
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
