@@ -47,6 +47,6 @@
     "webpack-cli": "2.1.2"
   },
   "dependencies": {
-    "joi": "^13.4.0"
+    "joi": "13.4.0"
   }
 }
