@@ -6,7 +6,8 @@ class ErrorCustom extends Error {
    * Error Constructor
    *
    * Calls parent constructor to set the error message and
-   * adds code, errorCode and manuallyThrown custom properties.
+   * adds code, errorCode, manuallyThrown and innerException custom properties.
+   * Logs the final object using passed function or debug library.
    *
    * @param {string} message
    * Error message to set on the Error object
@@ -45,7 +46,7 @@ class ErrorCustom extends Error {
     }
 
     super(message);
-    this.innerException = baseError;
+    if (baseError instanceof Error) this.innerException = baseError;
     this.statusCode = statusCode;
     this.errorCode = errorCode;
     this.manuallyThrown = true;
