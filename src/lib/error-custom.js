@@ -18,10 +18,10 @@ class ErrorCustom extends Error {
    * The specific error code as defined in documentation
    *
    * @param {Error} baseError
-   * Optional base exception to be included as innerExxception property
+   * Optional base exception to be included as innerException property
    *
    * @param {Function} logFunction
-   * Optional funciton to log the rror as. If not supplied, debug will be used
+   * Optional funciton to log the error as. If not supplied, debug will be used
    * to log to the console.
    */
   constructor(message, statusCode, errorCode, baseError, logFunction) {
