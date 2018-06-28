@@ -21,8 +21,8 @@ class ErrorCustom extends Error {
    * Optional base exception to be included as innerException property
    *
    * @param {Function} logFunction
-   * Optional funciton to log the error as. If not supplied, debug will be used
-   * to log to the console.
+   * Optional function to log the error with. If not supplied, debug library will be used
+   * to log to the console with the tag `error-custom`
    */
   constructor(message, statusCode, errorCode, baseError, logFunction) {
     const messageValidation = Joi.validate(message, Joi.string().required());
