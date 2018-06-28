@@ -2,6 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies, no-unused-expressions, no-new */
 
 import { expect } from 'chai';
+import sinon from 'sinon';
 import ErrorCustom from '../src/lib/error-custom';
 
 describe('Error Custom', () => {
@@ -89,6 +90,45 @@ describe('Error Custom', () => {
       expect(error.statusCode).to.equal(500);
       expect(error.errorCode).to.equal(1000200);
       expect(error.manuallyThrown).to.be.true;
+    }
+  });
+
+  it('Extend base error', () => {
+    try {
+      try {
+        undefined.toString();
+        expect('this should not be hit').to.equal(0);
+      } catch (error) {
+        throw new ErrorCustom('It blew up', 500, 101, error);
+      }
+    } catch (error) {
+      expect(error).to.be.instanceof(ErrorCustom);
+      expect(error.message).to.equal('It blew up');
+      expect(error.innerException.message).to.equal('Cannot read property \'toString\' of undefined');
+      expect(error.statusCode).to.equal(500);
+      expect(error.errorCode).to.equal(101);
+      expect(error.manuallyThrown).to.be.true;
+    }
+  });
+  it('Extend base error with custom logger', () => {
+    const spy = sinon.spy();
+
+    try {
+      try {
+        undefined.toString();
+        expect('this should not be hit').to.equal(0);
+      } catch (error) {
+        throw new ErrorCustom('It blew up', 500, 101, error, spy);
+      }
+    } catch (error) {
+      expect(spy.called).to.equal(true);
+      const result = spy.firstCall.args[0];
+      expect(result).to.be.instanceof(ErrorCustom);
+      expect(result.message).to.equal('It blew up');
+      expect(result.innerException.message).to.equal('Cannot read property \'toString\' of undefined');
+      expect(result.statusCode).to.equal(500);
+      expect(result.errorCode).to.equal(101);
+      expect(result.manuallyThrown).to.be.true;
     }
   });
 });

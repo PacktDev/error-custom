@@ -1,3 +1,4 @@
+import debug from 'debug';
 import Joi from 'joi';
 
 class ErrorCustom extends Error {
@@ -16,9 +17,14 @@ class ErrorCustom extends Error {
    * @param {number} errorCode
    * The specific error code as defined in documentation
    *
-   * @return {void}
+   * @param {Error} baseError
+   * Optional base exception to be included as innerExxception property
+   *
+   * @param {Function} logFunction
+   * Optional funciton to log the rror as. If not supplied, debug will be used
+   * to log to the console.
    */
-  constructor(message, statusCode, errorCode) {
+  constructor(message, statusCode, errorCode, baseError, logFunction) {
     const messageValidation = Joi.validate(message, Joi.string().required());
     const statusCodeValidation = Joi.validate(
       statusCode,
@@ -35,13 +41,22 @@ class ErrorCustom extends Error {
     if (errorCodeValidation.error) errors.push('Invalid value for errorCode parameter');
 
     if (errors.length > 0) {
-      throw new ErrorCustom(errors.join(', '), 500, 1000200);
+      throw new ErrorCustom(errors.join(', '), 500, 1000200, baseError);
     }
 
     super(message);
+    this.logger = debug('error-custom');
+    this.logger.enabled = true;
+    this.innerException = baseError;
     this.statusCode = statusCode;
     this.errorCode = errorCode;
     this.manuallyThrown = true;
+
+    if (logFunction) {
+      logFunction(this);
+    } else {
+      this.logger(this);
+    }
   }
 }
 
