@@ -45,8 +45,6 @@ class ErrorCustom extends Error {
     }
 
     super(message);
-    this.logger = debug('error-custom');
-    this.logger.enabled = true;
     this.innerException = baseError;
     this.statusCode = statusCode;
     this.errorCode = errorCode;
@@ -55,7 +53,9 @@ class ErrorCustom extends Error {
     if (logFunction) {
       logFunction(this);
     } else {
-      this.logger(this);
+      const logger = debug('error-custom');
+      logger.enabled = true;
+      logger(this);
     }
   }
 }
