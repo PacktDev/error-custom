@@ -12,7 +12,7 @@ Logs the final object using passed function or debug library.
 ## Example
 
 ```
-const error = new ErrorCustom(message, statusCode, errorCode, baseError, lofgFunction);
+const error = new ErrorCustom(message, statusCode, errorCode, baseError, logFunction);
 ```
 
    * @param {string} message
