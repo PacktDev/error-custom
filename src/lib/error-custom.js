@@ -1,5 +1,6 @@
 import debug from 'debug';
 import Joi from 'joi';
+import uuidv4 from 'uuid/v4';
 
 class ErrorCustom extends Error {
   /**
@@ -46,18 +47,23 @@ class ErrorCustom extends Error {
     }
 
     super(message);
-    if (baseError instanceof Error) this.innerException = baseError;
     this.statusCode = statusCode;
     this.errorCode = errorCode;
     this.manuallyThrown = true;
+    this.id = uuidv4();
+    if (baseError instanceof Error) this.innerException = baseError;
+
+    let writeOut;
 
     if (logFunction) {
-      logFunction(this);
+      writeOut = logFunction;
     } else {
       const logger = debug('error-custom');
       logger.enabled = true;
-      logger(this);
+      writeOut = logger;
     }
+
+    writeOut(this.id, this);
   }
 }
 
