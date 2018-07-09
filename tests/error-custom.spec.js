@@ -122,7 +122,7 @@ describe('Error Custom', () => {
       }
     } catch (error) {
       expect(spy.called).to.equal(true);
-      const result = spy.firstCall.args[0];
+      const result = spy.firstCall.args[1];
       expect(result).to.be.instanceof(ErrorCustom);
       expect(result.message).to.equal('It blew up');
       expect(result.innerException.message).to.equal('Cannot read property \'toString\' of undefined');
