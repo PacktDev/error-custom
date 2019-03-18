@@ -59,7 +59,6 @@ class ErrorCustom extends Error {
       writeOut = logFunction;
     } else {
       const logger = debug('error-custom');
-      logger.enabled = true;
       writeOut = logger;
     }
 
