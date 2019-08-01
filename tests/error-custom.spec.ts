@@ -1,15 +1,14 @@
 /* eslint-env node, mocha */
 /* eslint-disable import/no-extraneous-dependencies, no-unused-expressions, no-new */
-// tslint:disable: no-unused-expression
 
 import { expect } from 'chai';
 import sinon from 'sinon';
-import errorCustom from '../src/lib/error-custom';
+import ErrorCustom from '../src/lib/error-custom';
 
 describe('Error Custom', () => {
   it('Constructing the instance', () => {
-    const error = new errorCustom('Error Message', 400, 1000);
-    expect(error).to.be.instanceof(errorCustom);
+    const error = new ErrorCustom('Error Message', 400, 1000);
+    expect(error).to.be.instanceof(ErrorCustom);
     expect(error.message).to.equal('Error Message');
     expect(error.statusCode).to.equal(400);
     expect(error.errorCode).to.equal(1000);
@@ -19,10 +18,10 @@ describe('Error Custom', () => {
 
   it('undefined message fails', () => {
     try {
-      new errorCustom(undefined, 200, 1000000);
+      new ErrorCustom(undefined, 200, 1000000);
       expect('this should not be hit').to.equal(0);
     } catch (error) {
-      expect(error).to.be.instanceof(errorCustom);
+      expect(error).to.be.instanceof(ErrorCustom);
       expect(error.message).to.equal('Invalid value for message parameter');
       expect(error.statusCode).to.equal(500);
       expect(error.errorCode).to.equal(1000200);
@@ -33,10 +32,10 @@ describe('Error Custom', () => {
 
   it('undefined statusCode fails', () => {
     try {
-      new errorCustom('message', undefined, 1000000);
+      new ErrorCustom('message', undefined, 1000000);
       expect('this should not be hit').to.equal(0);
     } catch (error) {
-      expect(error).to.be.instanceof(errorCustom);
+      expect(error).to.be.instanceof(ErrorCustom);
       expect(error.message).to.equal('Invalid value for statusCode parameter');
       expect(error.statusCode).to.equal(500);
       expect(error.errorCode).to.equal(1000200);
@@ -53,10 +52,10 @@ describe('Error Custom', () => {
         readyToFail.toString();
         expect('this should not be hit').to.equal(0);
       } catch (error) {
-        throw new errorCustom('It blew up', 500, 101, error);
+        throw new ErrorCustom('It blew up', 500, 101, error);
       }
     } catch (error) {
-      expect(error).to.be.instanceof(errorCustom);
+      expect(error).to.be.instanceof(ErrorCustom);
       expect(error.message).to.equal('It blew up');
       expect(error.innerException.message).to.equal('Cannot read property \'toString\' of undefined');
       expect(error.statusCode).to.equal(500);
@@ -75,12 +74,12 @@ describe('Error Custom', () => {
         readyToFail.toString();
         expect('this should not be hit').to.equal(0);
       } catch (error) {
-        throw new errorCustom('It blew up', 500, 101, error, spy);
+        throw new ErrorCustom('It blew up', 500, 101, error, spy);
       }
     } catch (error) {
       expect(spy.called).to.equal(true);
       const result = spy.firstCall.args[1];
-      expect(result).to.be.instanceof(errorCustom);
+      expect(result).to.be.instanceof(ErrorCustom);
       expect(result.message).to.equal('It blew up');
       expect(result.innerException.message).to.equal('Cannot read property \'toString\' of undefined');
       expect(result.statusCode).to.equal(500);

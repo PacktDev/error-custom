@@ -7,9 +7,13 @@ import v4 from 'uuid/v4';
  */
 class ErrorCustom extends Error {
   public errorCode: number;
+
   public statusCode: number;
+
   public manuallyThrown: boolean;
+
   public id: string;
+
   public innerException: Error;
 
   /**
@@ -36,7 +40,8 @@ class ErrorCustom extends Error {
    * Optional function to log the error with. If not supplied, debug library will be used
    * to log to the console with the tag `error-custom`
    */
-  constructor(message: string, statusCode: number, errorCode: number, baseError?: Error, logFunction?: () => void) {
+  constructor(message: string, statusCode: number, errorCode: number,
+    baseError?: Error, logFunction?: () => void) {
     const messageValidation = joi.validate(message, joi.string().required());
     const statusCodeValidation = joi.validate(
       statusCode,
