@@ -1,4 +1,3 @@
-"use strict";
 // Copyright 2018 Packt Publishing Limited
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,9 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const error_custom_1 = __importDefault(require("./lib/error-custom"));
-exports.default = error_custom_1.default;
+
+import errorCustom from './lib/error-custom';
+
+export default errorCustom;
