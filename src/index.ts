@@ -12,6 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import ErrorCustom from './lib/error-custom';
+import errorCustom from './lib/error-custom';
 
-export default ErrorCustom;
+export default errorCustom;

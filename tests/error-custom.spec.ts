@@ -13,6 +13,7 @@ describe('Error Custom', () => {
     expect(error.statusCode).to.equal(400);
     expect(error.errorCode).to.equal(1000);
     expect(error.manuallyThrown).to.be.true;
+    expect(error.stack).to.be.not.undefined;
   });
 
   it('undefined message fails', () => {
@@ -25,19 +26,7 @@ describe('Error Custom', () => {
       expect(error.statusCode).to.equal(500);
       expect(error.errorCode).to.equal(1000200);
       expect(error.manuallyThrown).to.be.true;
-    }
-  });
-
-  it('invalid statusCode fails', () => {
-    try {
-      new ErrorCustom('message', 'lemon', 1000000);
-      expect('this should not be hit').to.equal(0);
-    } catch (error) {
-      expect(error).to.be.instanceof(ErrorCustom);
-      expect(error.message).to.equal('Invalid value for statusCode parameter');
-      expect(error.statusCode).to.equal(500);
-      expect(error.errorCode).to.equal(1000200);
-      expect(error.manuallyThrown).to.be.true;
+      expect(error.stack).to.be.not.undefined;
     }
   });
 
@@ -51,52 +40,16 @@ describe('Error Custom', () => {
       expect(error.statusCode).to.equal(500);
       expect(error.errorCode).to.equal(1000200);
       expect(error.manuallyThrown).to.be.true;
-    }
-  });
-
-  it('invalid errorCode fails', () => {
-    try {
-      new ErrorCustom('message', 200, { test: 'string' });
-      expect('this should not be hit').to.equal(0);
-    } catch (error) {
-      expect(error).to.be.instanceof(ErrorCustom);
-      expect(error.message).to.equal('Invalid value for errorCode parameter');
-      expect(error.statusCode).to.equal(500);
-      expect(error.errorCode).to.equal(1000200);
-      expect(error.manuallyThrown).to.be.true;
-    }
-  });
-
-  it('undefined errorCode fails', () => {
-    try {
-      new ErrorCustom('message', 200);
-      expect('this should not be hit').to.equal(0);
-    } catch (error) {
-      expect(error).to.be.instanceof(ErrorCustom);
-      expect(error.message).to.equal('Invalid value for errorCode parameter');
-      expect(error.statusCode).to.equal(500);
-      expect(error.errorCode).to.equal(1000200);
-      expect(error.manuallyThrown).to.be.true;
-    }
-  });
-
-  it('compound errors', () => {
-    try {
-      new ErrorCustom('message');
-      expect('this should not be hit').to.equal(0);
-    } catch (error) {
-      expect(error).to.be.instanceof(ErrorCustom);
-      expect(error.message).to.equal('Invalid value for statusCode parameter, Invalid value for errorCode parameter');
-      expect(error.statusCode).to.equal(500);
-      expect(error.errorCode).to.equal(1000200);
-      expect(error.manuallyThrown).to.be.true;
+      expect(error.stack).to.be.not.undefined;
     }
   });
 
   it('Extend base error', () => {
     try {
       try {
-        undefined.toString();
+        // tslint:disable-next-line: prefer-const
+        let readyToFail;
+        readyToFail.toString();
         expect('this should not be hit').to.equal(0);
       } catch (error) {
         throw new ErrorCustom('It blew up', 500, 101, error);
@@ -108,6 +61,7 @@ describe('Error Custom', () => {
       expect(error.statusCode).to.equal(500);
       expect(error.errorCode).to.equal(101);
       expect(error.manuallyThrown).to.be.true;
+      expect(error.stack).to.be.not.undefined;
     }
   });
   it('Extend base error with custom logger', () => {
@@ -115,7 +69,9 @@ describe('Error Custom', () => {
 
     try {
       try {
-        undefined.toString();
+        // tslint:disable-next-line: prefer-const
+        let readyToFail;
+        readyToFail.toString();
         expect('this should not be hit').to.equal(0);
       } catch (error) {
         throw new ErrorCustom('It blew up', 500, 101, error, spy);
@@ -129,7 +85,7 @@ describe('Error Custom', () => {
       expect(result.statusCode).to.equal(500);
       expect(result.errorCode).to.equal(101);
       expect(result.manuallyThrown).to.be.true;
+      expect(error.stack).to.be.not.undefined;
     }
   });
 });
-
