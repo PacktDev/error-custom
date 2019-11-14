@@ -64,7 +64,7 @@ describe('Error Custom', () => {
       expect(error.stack).to.be.not.undefined;
     }
   });
-  it('Extend base error with custom logger', () => {
+  it('Extend base error with custom logger - function', () => {
     const spy = sinon.spy();
 
     try {

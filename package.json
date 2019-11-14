@@ -4,7 +4,7 @@
   "description": "Extends the JavaScript Error object with custom properties.",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:packt-internal/error-custom.git"
+    "url": "git@github.com:PacktDev/error-custom.git"
   },
   "main": "dist/index.js",
   "sideEffects": false,
@@ -40,7 +40,7 @@
     }
   ],
   "license": "Apache-2.0",
-  "homepage": "https://bitbucket.org/packt-internal/error-custom#readme",
+  "homepage": "https://github.com/PacktDev/error-custom",
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@types/chai": "^4.1.7",
@@ -67,16 +67,20 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^7.4.0",
+    "aws-elasticsearch-client": "^2.0.0",
+    "aws-sdk": "^2.570.0",
     "debug": "4.1.1",
+    "elasticsearch": "^16.5.0",
     "joi": "14.3.1",
     "uuid": "3.3.2"
   },
   "nyc": {
     "check-coverage": false,
-    "lines": 95,
-    "statements": 95,
-    "functions": 95,
-    "branches": 95,
+    "lines": 98,
+    "statements": 98,
+    "functions": 98,
+    "branches": 98,
     "extension": [
       ".ts"
     ],
