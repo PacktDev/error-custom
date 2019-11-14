@@ -118,6 +118,24 @@ class ErrorCustom extends Error {
   private static async sendToElastic(node: string, id: string, ...content: any): Promise<void> {
     ErrorCustom.defaultOutput(id, content);
 
+    const date = new Date();
+
+    const client = new Client({ node });
+    await client.index({
+      index: process.env.ELASITC_LOGGING_URL || `logs-error-custom-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+      body: {
+        level: 'error',
+        original: content.innerException,
+        logger: 'Error Custom',
+        origin: {
+          file: {
+            name: '/src/lib/error-custom.ts',
+            line: 115, 
+          },
+          function: 'sendToElastic',
+        }
+      },
+    });
   }
 }
 
