@@ -18,7 +18,7 @@ class ErrorCustom extends Error {
 
   public innerException: Error;
 
-  public thrownMessage:  string;
+  public thrownMessage: string;
 
   /**
    * Error Constructor
@@ -130,10 +130,10 @@ class ErrorCustom extends Error {
         origin: {
           file: {
             name: '/src/lib/error-custom.ts',
-            line: 115, 
+            line: 115,
           },
           function: 'sendToElastic',
-        }
+        },
       },
     });
   }
