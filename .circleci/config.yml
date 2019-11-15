@@ -47,6 +47,9 @@ jobs:
       - run:
           name: Run tests
           command: npm test
+      - store_artifacts:
+          path: ./coverage/
+
   deploy:
     <<: *defaults
     steps:
