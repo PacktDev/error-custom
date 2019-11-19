@@ -70,6 +70,7 @@ class ErrorCustom extends Error {
     }
 
     // Re-enable the original chain for stack traces etc
+    /* istanbul ignore next */
     super(message);
     Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
     this.statusCode = statusCode;
@@ -129,10 +130,10 @@ class ErrorCustom extends Error {
     const elasticClient = new Client({
       node,
     });
-    const elasticIndexExsists = await elasticClient.indices.exists({
+    const elasticIndexExists = await elasticClient.indices.exists({
       index: indexName,
     });
-    if (!elasticIndexExsists) {
+    if (elasticIndexExists.statusCode !== 200) {
       elasticClient.indices.create({
         index: indexName,
       });
