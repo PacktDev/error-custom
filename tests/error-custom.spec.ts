@@ -184,7 +184,7 @@ describe('Error Custom', () => {
   });
   it('Send to ES - predefined index', async () => {
     sandbox.stub(process, 'env').value({
-      ELASITC_LOGGING_INDEX: uuid(),
+      ELASTIC_LOGGING_INDEX: uuid(),
     });
     const errorFunc = sandbox.stub(winston, 'createLogger').returns({
       'error': () => {}

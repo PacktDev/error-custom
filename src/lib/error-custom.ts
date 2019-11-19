@@ -124,7 +124,7 @@ class ErrorCustom extends Error {
     const date = new Date();
 
     // Index Name
-    const indexName = process.env.ELASITC_LOGGING_INDEX || `logs-error-custom-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+    const indexName = process.env.ELASTIC_LOGGING_INDEX || `logs-error-custom-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 
     // check the index exists
     const elasticClient = new Client({
