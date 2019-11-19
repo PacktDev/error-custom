@@ -8,7 +8,7 @@ import ErrorCustom from '../src/lib/error-custom';
 
 const sandbox = sinon.createSandbox();
 
-const ELASITC_LOGGING_URL = 'https://localhost:9200';
+const ELASITC_LOGGING_URL = 'https://search-service-logging-6c63vebd2d5ssnsk3mgoouwotm.eu-west-1.es.amazonaws.com/';
 
 describe('Error Custom', () => {
   beforeEach(() => {

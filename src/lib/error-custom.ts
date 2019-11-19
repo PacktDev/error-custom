@@ -123,7 +123,7 @@ class ErrorCustom extends Error {
     const date = new Date();
 
     // Index Name
-    const indexName = process.env.ELASITC_LOGGING_INDEX || `logs-error-custom-${date.getFullYear()}-${date.getMonth()}-${date.getDate() + 2}`;
+    const indexName = process.env.ELASITC_LOGGING_INDEX || `logs-error-custom-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 
     // check the index exists
     const elasticClient = new Client({
@@ -143,19 +143,15 @@ class ErrorCustom extends Error {
       level: 'error',
       index: indexName,
       client: elasticClient,
+      buffering: false,
       flushInterval: 1000,
-    })
+    });
     const logger = winston.createLogger({
       transports: [
         esTransport,
       ],
     });
     logger.error(content.message, content);
-
-    // Kill it - with 🔥
-    esTransport.close();
-    (esTransport as any).bulkWriter.stop();
-    logger.close();
   }
 }
 
