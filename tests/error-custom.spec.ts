@@ -3,9 +3,17 @@
 
 import { expect } from 'chai';
 import sinon from 'sinon';
+// import nock from 'nock';
 import ErrorCustom from '../src/lib/error-custom';
 
+const sandbox = sinon.createSandbox();
+
+const ELASITC_LOGGING_URL = 'https://localhost:9200';
+
 describe('Error Custom', () => {
+  beforeEach(() => {
+    sandbox.restore();
+  });
   it('Constructing the instance', () => {
     const error = new ErrorCustom('Error Message', 400, 1000);
     expect(error).to.be.instanceof(ErrorCustom);
@@ -85,6 +93,30 @@ describe('Error Custom', () => {
       expect(result.statusCode).to.equal(500);
       expect(result.errorCode).to.equal(101);
       expect(result.manuallyThrown).to.be.true;
+      expect(error.stack).to.be.not.undefined;
+    }
+  });
+  it('Extend base error with custom logger - ES ENV', () => {
+    sandbox.stub(process, 'env').value({
+      ELASITC_LOGGING_URL,
+    });
+
+    try {
+      try {
+        // tslint:disable-next-line: prefer-const
+        let readyToFail;
+        readyToFail.toString();
+        expect('this should not be hit').to.equal(0);
+      } catch (error) {
+        throw new ErrorCustom('It blew up', 500, 101, error);
+      }
+    } catch (error) {
+      expect(error).to.be.instanceof(ErrorCustom);
+      expect(error.message).to.equal('It blew up');
+      expect(error.innerException.message).to.equal('Cannot read property \'toString\' of undefined');
+      expect(error.statusCode).to.equal(500);
+      expect(error.errorCode).to.equal(101);
+      expect(error.manuallyThrown).to.be.true;
       expect(error.stack).to.be.not.undefined;
     }
   });
