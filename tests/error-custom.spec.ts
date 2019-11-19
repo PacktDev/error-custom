@@ -9,7 +9,7 @@ import winston from 'winston';
 
 const sandbox = sinon.createSandbox();
 
-const ELASITC_LOGGING_URL = 'https://localhost:9200/';
+const ELASITC_LOGGING_URL = 'http://localhost:9200/';
 
 describe('Error Custom', () => {
   beforeEach(() => {
