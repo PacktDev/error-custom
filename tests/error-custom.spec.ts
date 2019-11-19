@@ -9,7 +9,7 @@ import winston from 'winston';
 
 const sandbox = sinon.createSandbox();
 
-const ELASITC_LOGGING_URL = 'http://localhost:9200/';
+const ELASTIC_LOGGING_URL = 'http://localhost:9200/';
 
 describe('Error Custom', () => {
   beforeEach(() => {
@@ -113,9 +113,11 @@ describe('Error Custom', () => {
   });
   it('Extend base error with custom logger - ES ENV', () => {
     sandbox.stub(process, 'env').value({
-      ELASITC_LOGGING_URL,
+      ELASTIC_LOGGING_URL,
     });
-
+    const errorFunc = sandbox.stub(winston, 'createLogger').returns({
+      'error': () => {}
+    } as any);
     try {
       try {
         // tslint:disable-next-line: prefer-const
@@ -133,6 +135,7 @@ describe('Error Custom', () => {
       expect(error.errorCode).to.equal(101);
       expect(error.manuallyThrown).to.be.true;
       expect(error.stack).to.be.not.undefined;
+      expect(errorFunc.callCount).to.be.gte(1);
     }
   });
   it('Extend base error with custom logger - ES String', () => {
@@ -143,7 +146,7 @@ describe('Error Custom', () => {
         readyToFail.toString();
         expect('this should not be hit').to.equal(0);
       } catch (error) {
-        throw new ErrorCustom('It blew up', 500, 101, error, ELASITC_LOGGING_URL);
+        throw new ErrorCustom('It blew up', 500, 101, error, ELASTIC_LOGGING_URL);
       }
     } catch (error) {
       expect(error).to.be.instanceof(ErrorCustom);
@@ -179,7 +182,7 @@ describe('Error Custom', () => {
     const errorFunc = sandbox.stub(winston, 'createLogger').returns({
       'error': () => {}
     } as any);
-    await (ErrorCustom as any).sendToElastic(ELASITC_LOGGING_URL)
+    await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL)
     expect(errorFunc.callCount).to.be.gte(1);
   });
   it('Send to ES - predefined index', async () => {
@@ -189,7 +192,7 @@ describe('Error Custom', () => {
     const errorFunc = sandbox.stub(winston, 'createLogger').returns({
       'error': () => {}
     } as any);
-    await (ErrorCustom as any).sendToElastic(ELASITC_LOGGING_URL)
+    await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL)
     expect(errorFunc.callCount).to.be.gte(1);
   });
 });
