@@ -1,6 +1,6 @@
 {
   "name": "@packt/error-custom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Extends the JavaScript Error object with custom properties.",
   "repository": {
     "type": "git",
