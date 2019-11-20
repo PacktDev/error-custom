@@ -137,6 +137,7 @@ describe('Error Custom', () => {
     }
   });
   it('Extend base error with custom logger - ES String', () => {
+    const esTestsLocation = `http://${uuid()}.example.com`
     const sendToElasticFunc = sandbox.stub((ErrorCustom as any), 'sendToElastic').resolves();
     try {
       try {
@@ -145,7 +146,7 @@ describe('Error Custom', () => {
         readyToFail.toString();
         expect('this should not be hit').to.equal(0);
       } catch (error) {
-        throw new ErrorCustom('It blew up', 500, 101, error, ELASTIC_LOGGING_URL);
+        throw new ErrorCustom('It blew up', 500, 101, error, esTestsLocation);
       }
     } catch (error) {
       expect(error).to.be.instanceof(ErrorCustom);
@@ -156,7 +157,7 @@ describe('Error Custom', () => {
       expect(error.manuallyThrown).to.be.true;
       expect(error.stack).to.be.not.undefined;
       expect(sendToElasticFunc.callCount).to.be.gte(1);
-      expect(sendToElasticFunc.args[0][0]).to.eql(ELASTIC_LOGGING_URL);
+      expect(sendToElasticFunc.args[0][0]).to.eql(esTestsLocation);
     }
   });
   it('Extend base error with custom logger - ES Malformed String', () => {
