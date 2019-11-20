@@ -8,7 +8,7 @@
       }
     }
   },
-  "extends": "airbnb-base",
+  "extends": "packt-base",
   "rules": {
     "padding-line-between-statements": [
       "error",

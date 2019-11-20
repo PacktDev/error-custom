@@ -1,20 +1,21 @@
 {
   "name": "@packt/error-custom",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Extends the JavaScript Error object with custom properties.",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:packt-internal/error-custom.git"
+    "url": "git@github.com:PacktDev/error-custom.git"
   },
   "main": "dist/index.js",
   "sideEffects": false,
   "scripts": {
-    "test": "npm run lint && npm run build && npm run unit",
-    "lint": "eslint ./src/**/*.*s ./tests/**/*.*s",
+    "test": "npm run lint && npm run build && npm run unit && npm run nunit",
+    "lint": "eslint ./src/**/*.*s",
     "lint:fix": "eslint ./src/**/*.*s ./tests/**/*.*s --fix",
     "coverage": "babel-node ./node_modules/babel-istanbul/lib/cli.js check-coverage --statements 95 --functions 95 --branches 95 --lines 95",
     "compile": "babel src --out-dir .compiled --source-maps --watch",
-    "unit": "nyc --require ts-node/register --require source-map-support/register mocha --recursive 'tests/**/*.spec.*s'",
+    "unit": "mocha --require ts-node/register --require source-map-support/register --recursive 'tests/**/*.spec.*s'",
+    "nunit": "nyc --check-coverage true mocha --require ts-node/register --recursive 'tests/**/*.spec.*s'",
     "build": "tsc",
     "prepublishOnly": "npm run test && npm run build"
   },
@@ -40,7 +41,7 @@
     }
   ],
   "license": "Apache-2.0",
-  "homepage": "https://bitbucket.org/packt-internal/error-custom#readme",
+  "homepage": "https://github.com/PacktDev/error-custom",
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@types/chai": "^4.1.7",
@@ -57,26 +58,31 @@
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "eslint": "^5.0.0",
-    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-packt-base": "^0.0.1",
     "eslint-plugin-import": "^2.18.2",
     "istanbul": "^0.4.5",
     "mocha": "^6.2.0",
+    "nock": "^11.7.0",
     "nyc": "^14.1.1",
     "sinon": "^7.3.2",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^7.4.0",
+    "aws-sdk": "^2.570.0",
     "debug": "4.1.1",
     "joi": "14.3.1",
-    "uuid": "3.3.2"
+    "uuid": "3.3.2",
+    "winston": "3.2.1",
+    "winston-elasticsearch": "0.8.2"
   },
   "nyc": {
     "check-coverage": false,
-    "lines": 95,
-    "statements": 95,
-    "functions": 95,
-    "branches": 95,
+    "lines": 98,
+    "statements": 98,
+    "functions": 98,
+    "branches": 98,
     "extension": [
       ".ts"
     ],
