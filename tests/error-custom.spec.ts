@@ -185,7 +185,7 @@ describe('Error Custom', () => {
     const errorFunc = sandbox.stub(winston, 'createLogger').returns({
       'error': () => {}
     } as any);
-    await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL)
+    await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {})
     expect(errorFunc.callCount).to.be.gte(1);
   });
   it('Send to ES - predefined index', async () => {
@@ -195,7 +195,7 @@ describe('Error Custom', () => {
     const errorFunc = sandbox.stub(winston, 'createLogger').returns({
       'error': () => {}
     } as any);
-    await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL)
+    await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {})
     expect(errorFunc.callCount).to.be.gte(1);
   });
 });
