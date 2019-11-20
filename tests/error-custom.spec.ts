@@ -115,9 +115,7 @@ describe('Error Custom', () => {
     sandbox.stub(process, 'env').value({
       ELASTIC_LOGGING_URL,
     });
-    const errorFunc = sandbox.stub(winston, 'createLogger').returns({
-      'error': () => {}
-    } as any);
+    const sendToElasticFunc = sandbox.stub((ErrorCustom as any), 'sendToElastic').resolves();
     try {
       try {
         // tslint:disable-next-line: prefer-const
@@ -135,7 +133,7 @@ describe('Error Custom', () => {
       expect(error.errorCode).to.equal(101);
       expect(error.manuallyThrown).to.be.true;
       expect(error.stack).to.be.not.undefined;
-      expect(errorFunc.callCount).to.be.gte(1);
+      expect(sendToElasticFunc.callCount).to.be.gte(1);
     }
   });
   it('Extend base error with custom logger - ES String', () => {

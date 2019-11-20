@@ -81,8 +81,8 @@ class ErrorCustom extends Error {
     if (baseError instanceof Error) this.innerException = baseError;
 
     // Log to chosen location
-    if (process.env.ELASITC_LOGGING_URL) {
-      ErrorCustom.sendToElastic(process.env.ELASITC_LOGGING_URL, this.id, this);
+    if (process.env.ELASTIC_LOGGING_URL) {
+      ErrorCustom.sendToElastic(process.env.ELASTIC_LOGGING_URL, this.id, this);
     } else {
       switch (typeof logFunction) {
         case 'function':
