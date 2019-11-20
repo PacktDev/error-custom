@@ -137,6 +137,7 @@ describe('Error Custom', () => {
     }
   });
   it('Extend base error with custom logger - ES String', () => {
+    const sendToElasticFunc = sandbox.stub((ErrorCustom as any), 'sendToElastic').resolves();
     try {
       try {
         // tslint:disable-next-line: prefer-const
@@ -154,9 +155,12 @@ describe('Error Custom', () => {
       expect(error.errorCode).to.equal(101);
       expect(error.manuallyThrown).to.be.true;
       expect(error.stack).to.be.not.undefined;
+      expect(sendToElasticFunc.callCount).to.be.gte(1);
+      expect(sendToElasticFunc.args[0][0]).to.eql(ELASTIC_LOGGING_URL);
     }
   });
   it('Extend base error with custom logger - ES Malformed String', () => {
+    const sendToElasticFunc = sandbox.stub((ErrorCustom as any), 'sendToElastic').resolves();
     try {
       try {
         // tslint:disable-next-line: prefer-const
@@ -174,6 +178,7 @@ describe('Error Custom', () => {
       expect(error.errorCode).to.equal(101);
       expect(error.manuallyThrown).to.be.true;
       expect(error.stack).to.be.not.undefined;
+      expect(sendToElasticFunc.callCount).to.be.lt(1);
     }
   });
   it('Send to ES', async () => {
