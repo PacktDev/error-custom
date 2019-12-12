@@ -101,17 +101,17 @@ class ErrorCustom extends Error {
    * @param id
    * @param content
    */
-  private static defaultOutput(id: string, ...content: any): void {
+  private static defaultOutput(id: string, content: ErrorCustom): void {
     return debug('error-custom')(id, content);
   }
 
   /**
    * Send the output to Elastic
-   * @param node
+   * @param node url to the node instance
    * @param id
    * @param content
    */
-  private static async sendToElastic(node: string, id: string, ...content: any): Promise<void> {
+  private static async sendToElastic(node: string, id: string, content: ErrorCustom): Promise<void> {
     ErrorCustom.defaultOutput(id, content);
 
     const date = new Date();
