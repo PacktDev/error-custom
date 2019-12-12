@@ -123,6 +123,8 @@ class ErrorCustom extends Error {
     // check the index exists
     const elasticClient = new Client({
       node,
+      pingTimeout: 2000,
+      requestTimeout: 2000,
     });
     const elasticIndexExists = await elasticClient.indices.exists({
       index: indexName,
@@ -139,7 +141,7 @@ class ErrorCustom extends Error {
       index: indexName,
       client: elasticClient,
       buffering: false,
-      flushInterval: 1000,
+      flushInterval: 500,
     });
     const logger = winston.createLogger({
       transports: [
