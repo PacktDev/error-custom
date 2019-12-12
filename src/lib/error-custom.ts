@@ -75,7 +75,7 @@ class ErrorCustom extends Error {
 
     // Log to chosen location
     if (process.env.ELASTIC_LOGGING_URL) {
-      ErrorCustom.sendToElastic(process.env.ELASTIC_LOGGING_URL, this.id, this);
+      ErrorCustom.sendToElastic(process.env.ELASTIC_LOGGING_URL, this);
     } else {
       switch (typeof logFunction) {
         case 'function':
@@ -83,7 +83,7 @@ class ErrorCustom extends Error {
           break;
         case 'string':
           if (url.parse(logFunction).host) {
-            ErrorCustom.sendToElastic(logFunction, this.id, this);
+            ErrorCustom.sendToElastic(logFunction, this);
             break;
           } else {
             ErrorCustom.defaultOutput(this.id, this);
@@ -111,8 +111,8 @@ class ErrorCustom extends Error {
    * @param id
    * @param content
    */
-  private static async sendToElastic(node: string, id: string, content: ErrorCustom): Promise<void> {
-    ErrorCustom.defaultOutput(id, content);
+  private static async sendToElastic(node: string, content: ErrorCustom): Promise<void> {
+    ErrorCustom.defaultOutput(content.id, content);
 
     const date = new Date();
 
