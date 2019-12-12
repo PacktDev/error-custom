@@ -12,8 +12,6 @@
     "test": "npm run lint && npm run build && npm run unit && npm run nunit",
     "lint": "eslint ./src/**/*.*s",
     "lint:fix": "eslint ./src/**/*.*s ./tests/**/*.*s --fix",
-    "coverage": "babel-node ./node_modules/babel-istanbul/lib/cli.js check-coverage --statements 95 --functions 95 --branches 95 --lines 95",
-    "compile": "babel src --out-dir .compiled --source-maps --watch",
     "unit": "mocha --require ts-node/register --require source-map-support/register --recursive 'tests/**/*.spec.*s'",
     "nunit": "nyc --check-coverage true mocha --require ts-node/register --recursive 'tests/**/*.spec.*s'",
     "build": "tsc",

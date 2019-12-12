@@ -11,16 +11,10 @@ import { Client } from '@elastic/elasticsearch';
  */
 class ErrorCustom extends Error {
   public errorCode: number;
-
   public statusCode: number;
-
   public manuallyThrown: boolean;
-
   public id: string;
-
-  public innerException: Error;
-
-  public thrownMessage: string;
+  public innerException: any;
 
   /**
    * Error Constructor
@@ -77,8 +71,7 @@ class ErrorCustom extends Error {
     this.errorCode = errorCode;
     this.manuallyThrown = true;
     this.id = v4();
-    this.thrownMessage = message;
-    if (baseError instanceof Error) this.innerException = baseError;
+    this.innerException = baseError;
 
     // Log to chosen location
     if (process.env.ELASTIC_LOGGING_URL) {
