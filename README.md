@@ -3,7 +3,7 @@
 Extends the JavaScript Error object with custom properties.
 
 Calls parent constructor to set the error message and adds code, errorCode, manuallyThrown and innerException custom properties.
-Logs the final object using passed function or debug library.
+Logs the final object using passed function, Elastic URL or debug library.
 
 ## Requirements
 
@@ -23,6 +23,7 @@ HTTP status code
 The specific error code as defined in documentation
    * @param {Error} baseError
 Optional base exception to be included as innerException property
-   * @param {Function} logFunction
+   * @param {Function|string} logFunction
 Optional function to log the error with. If not supplied, debug library will be used
-to log to the console with the tag `error-custom`
+to log to the console with the tag `error-custom`. If a string is provided that is a
+URL, it will be used to send to that URL with ElasticSearch client in Winston format.
