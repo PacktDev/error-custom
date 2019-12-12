@@ -18,17 +18,12 @@
         "next": "*"
       },
       {
-        "blankLine": "always",
-        "prev": "*",
-        "next": ["block", "block-like", "cjs-export", "class", "export", "import"]
-      },
-      {
         "blankLine": "any",
         "prev": ["export", "import"],
         "next": ["export", "import"]
       }
     ],
-    "lines-between-class-members": ["any"],
+    "lines-between-class-members": ["off"],
     "require-jsdoc": ["error", {
       "require": {
         "FunctionDeclaration": true,
