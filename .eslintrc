@@ -23,6 +23,7 @@
         "next": ["export", "import"]
       }
     ],
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "require-jsdoc": ["error", {
       "require": {
         "FunctionDeclaration": true,

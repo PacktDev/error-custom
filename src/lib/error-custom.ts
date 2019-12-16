@@ -11,16 +11,10 @@ import { Client } from '@elastic/elasticsearch';
  */
 class ErrorCustom extends Error {
   public errorCode: number;
-
   public statusCode: number;
-
   public manuallyThrown: boolean;
-
   public id: string;
-
-  public innerException: Error;
-
-  public thrownMessage: string;
+  public innerException: any;
 
   /**
    * Error Constructor
@@ -77,12 +71,11 @@ class ErrorCustom extends Error {
     this.errorCode = errorCode;
     this.manuallyThrown = true;
     this.id = v4();
-    this.thrownMessage = message;
-    if (baseError instanceof Error) this.innerException = baseError;
+    this.innerException = baseError;
 
     // Log to chosen location
     if (process.env.ELASTIC_LOGGING_URL) {
-      ErrorCustom.sendToElastic(process.env.ELASTIC_LOGGING_URL, this.id, this);
+      ErrorCustom.sendToElastic(process.env.ELASTIC_LOGGING_URL, this);
     } else {
       switch (typeof logFunction) {
         case 'function':
@@ -90,7 +83,7 @@ class ErrorCustom extends Error {
           break;
         case 'string':
           if (url.parse(logFunction).host) {
-            ErrorCustom.sendToElastic(logFunction, this.id, this);
+            ErrorCustom.sendToElastic(logFunction, this);
             break;
           } else {
             ErrorCustom.defaultOutput(this.id, this);
@@ -108,18 +101,18 @@ class ErrorCustom extends Error {
    * @param id
    * @param content
    */
-  private static defaultOutput(id: string, ...content: any): void {
+  private static defaultOutput(id: string, content: ErrorCustom): void {
     return debug('error-custom')(id, content);
   }
 
   /**
    * Send the output to Elastic
-   * @param node
+   * @param node url to the node instance
    * @param id
    * @param content
    */
-  private static async sendToElastic(node: string, id: string, ...content: any): Promise<void> {
-    ErrorCustom.defaultOutput(id, content);
+  private static async sendToElastic(node: string, content: ErrorCustom): Promise<void> {
+    ErrorCustom.defaultOutput(content.id, content);
 
     const date = new Date();
 
@@ -127,9 +120,23 @@ class ErrorCustom extends Error {
     const serviceName = process.env.ELASTIC_LOGGING_SERVICE_NAME || 'error-custom';
     const indexName = process.env.ELASTIC_LOGGING_INDEX || `logs-${serviceName}-${date.toISOString().split('T').shift()}`;
 
+    const pingTimeout = process.env.ELASTIC_PING_TIMEOUT
+      ? parseInt(process.env.ELASTIC_PING_TIMEOUT, 10) || 2000
+      : 2000;
+
+    const requestTimeout = process.env.ELASTIC_REQUEST_TIMEOUT
+      ? parseInt(process.env.ELASTIC_REQUEST_TIMEOUT, 10) || 2000
+      : 2000;
+
+    const flushInterval = process.env.ELASTIC_FLUSH_INTERVAL
+      ? parseInt(process.env.ELASTIC_FLUSH_INTERVAL, 10) || 500
+      : 500;
+
     // check the index exists
     const elasticClient = new Client({
       node,
+      pingTimeout,
+      requestTimeout,
     });
     const elasticIndexExists = await elasticClient.indices.exists({
       index: indexName,
@@ -146,7 +153,7 @@ class ErrorCustom extends Error {
       index: indexName,
       client: elasticClient,
       buffering: false,
-      flushInterval: 1000,
+      flushInterval,
     });
     const logger = winston.createLogger({
       transports: [
