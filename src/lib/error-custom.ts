@@ -121,15 +121,15 @@ class ErrorCustom extends Error {
     const indexName = process.env.ELASTIC_LOGGING_INDEX || `logs-${serviceName}-${date.toISOString().split('T').shift()}`;
 
     const pingTimeout = process.env.ELASTIC_PING_TIMEOUT
-      ? parseInt(process.env.ELASTIC_PING_TIMEOUT, 10)
+      ? parseInt(process.env.ELASTIC_PING_TIMEOUT, 10) || 2000
       : 2000;
 
     const requestTimeout = process.env.ELASTIC_REQUEST_TIMEOUT
-      ? parseInt(process.env.ELASTIC_REQUEST_TIMEOUT, 10)
+      ? parseInt(process.env.ELASTIC_REQUEST_TIMEOUT, 10) || 2000
       : 2000;
 
     const flushInterval = process.env.ELASTIC_FLUSH_INTERVAL
-      ? parseInt(process.env.ELASTIC_FLUSH_INTERVAL, 10)
+      ? parseInt(process.env.ELASTIC_FLUSH_INTERVAL, 10) || 500
       : 500;
 
     // check the index exists
