@@ -127,16 +127,24 @@ class ErrorCustom extends Error {
       pingTimeout = process.env.ELASTIC_PING_TIMEOUT
         ? parseInt(process.env.ELASTIC_PING_TIMEOUT, 10)
         : 2000;
+    } catch (error) {
+      pingTimeout = 2000;
+    }
+
+    try {
       requestTimeout = process.env.ELASTIC_REQUEST_TIMEOUT
         ? parseInt(process.env.ELASTIC_REQUEST_TIMEOUT, 10)
         : 2000;
+    } catch (error) {
+      requestTimeout = 2000;
+    }
+
+    try {
       flushInterval = process.env.ELASTIC_FLUSH_INTERVAL
         ? parseInt(process.env.ELASTIC_FLUSH_INTERVAL, 10)
         : 500;
     } catch (error) {
-      pingTimeout = pingTimeout || 2000;
-      requestTimeout = requestTimeout || 2000;
-      flushInterval = flushInterval || 500;
+      flushInterval = 500;
     }
 
     // check the index exists
