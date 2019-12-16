@@ -120,11 +120,30 @@ class ErrorCustom extends Error {
     const serviceName = process.env.ELASTIC_LOGGING_SERVICE_NAME || 'error-custom';
     const indexName = process.env.ELASTIC_LOGGING_INDEX || `logs-${serviceName}-${date.toISOString().split('T').shift()}`;
 
+    let pingTimeout: number;
+    let requestTimeout: number;
+    let flushInterval: number;
+    try {
+      pingTimeout = process.env.ELASTIC_PING_TIMEOUT
+        ? parseInt(process.env.ELASTIC_PING_TIMEOUT, 10)
+        : 2000;
+      requestTimeout = process.env.ELASTIC_REQUEST_TIMEOUT
+        ? parseInt(process.env.ELASTIC_REQUEST_TIMEOUT, 10)
+        : 2000;
+      flushInterval = process.env.ELASTIC_FLUSH_INTERVAL
+        ? parseInt(process.env.ELASTIC_FLUSH_INTERVAL, 10)
+        : 500;
+    } catch (error) {
+      pingTimeout = pingTimeout || 2000;
+      requestTimeout = requestTimeout || 2000;
+      flushInterval = flushInterval || 500;
+    }
+
     // check the index exists
     const elasticClient = new Client({
       node,
-      pingTimeout: 2000,
-      requestTimeout: 2000,
+      pingTimeout,
+      requestTimeout,
     });
     const elasticIndexExists = await elasticClient.indices.exists({
       index: indexName,
@@ -141,7 +160,7 @@ class ErrorCustom extends Error {
       index: indexName,
       client: elasticClient,
       buffering: false,
-      flushInterval: 500,
+      flushInterval,
     });
     const logger = winston.createLogger({
       transports: [
