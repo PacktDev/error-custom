@@ -225,6 +225,18 @@ describe('Error Custom', () => {
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
+      it('ELASTIC_PING_TIMEOUT set to string', async () => {
+        sandbox.stub(process, 'env').value({
+          ELASTIC_LOGGING_INDEX: uuid(),
+          ELASTIC_PING_TIMEOUT: 'lemon',
+        });
+        const errorFunc = sandbox.stub(winston, 'createLogger').returns({
+          error: () => { },
+        } as any);
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        expect(errorFunc.callCount).to.be.gte(1);
+      });
+
       it('ELASTIC_REQUEST_TIMEOUT set to number', async () => {
         sandbox.stub(process, 'env').value({
           ELASTIC_LOGGING_INDEX: uuid(),
@@ -237,10 +249,34 @@ describe('Error Custom', () => {
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
+      it('ELASTIC_REQUEST_TIMEOUT set to string', async () => {
+        sandbox.stub(process, 'env').value({
+          ELASTIC_LOGGING_INDEX: uuid(),
+          ELASTIC_REQUEST_TIMEOUT: 'lemon',
+        });
+        const errorFunc = sandbox.stub(winston, 'createLogger').returns({
+          error: () => { },
+        } as any);
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        expect(errorFunc.callCount).to.be.gte(1);
+      });
+
       it('ELASTIC_FLUSH_INTERVAL set to number', async () => {
         sandbox.stub(process, 'env').value({
           ELASTIC_LOGGING_INDEX: uuid(),
           ELASTIC_FLUSH_INTERVAL: '1000',
+        });
+        const errorFunc = sandbox.stub(winston, 'createLogger').returns({
+          error: () => { },
+        } as any);
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        expect(errorFunc.callCount).to.be.gte(1);
+      });
+
+      it('ELASTIC_FLUSH_INTERVAL set to string', async () => {
+        sandbox.stub(process, 'env').value({
+          ELASTIC_LOGGING_INDEX: uuid(),
+          ELASTIC_FLUSH_INTERVAL: 'lemon',
         });
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
