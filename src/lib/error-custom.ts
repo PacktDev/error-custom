@@ -120,32 +120,17 @@ class ErrorCustom extends Error {
     const serviceName = process.env.ELASTIC_LOGGING_SERVICE_NAME || 'error-custom';
     const indexName = process.env.ELASTIC_LOGGING_INDEX || `logs-${serviceName}-${date.toISOString().split('T').shift()}`;
 
-    let pingTimeout: number;
-    let requestTimeout: number;
-    let flushInterval: number;
-    try {
-      pingTimeout = process.env.ELASTIC_PING_TIMEOUT
-        ? parseInt(process.env.ELASTIC_PING_TIMEOUT, 10)
-        : 2000;
-    } catch (error) {
-      pingTimeout = 2000;
-    }
+    const pingTimeout = process.env.ELASTIC_PING_TIMEOUT
+      ? parseInt(process.env.ELASTIC_PING_TIMEOUT, 10)
+      : 2000;
 
-    try {
-      requestTimeout = process.env.ELASTIC_REQUEST_TIMEOUT
-        ? parseInt(process.env.ELASTIC_REQUEST_TIMEOUT, 10)
-        : 2000;
-    } catch (error) {
-      requestTimeout = 2000;
-    }
+    const requestTimeout = process.env.ELASTIC_REQUEST_TIMEOUT
+      ? parseInt(process.env.ELASTIC_REQUEST_TIMEOUT, 10)
+      : 2000;
 
-    try {
-      flushInterval = process.env.ELASTIC_FLUSH_INTERVAL
-        ? parseInt(process.env.ELASTIC_FLUSH_INTERVAL, 10)
-        : 500;
-    } catch (error) {
-      flushInterval = 500;
-    }
+    const flushInterval = process.env.ELASTIC_FLUSH_INTERVAL
+      ? parseInt(process.env.ELASTIC_FLUSH_INTERVAL, 10)
+      : 500;
 
     // check the index exists
     const elasticClient = new Client({
