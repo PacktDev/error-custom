@@ -88,6 +88,8 @@ describe('Error Custom', () => {
       expect(error.errorCode).to.equal(101);
       expect(error.manuallyThrown).to.be.true;
       expect(error.stack).to.be.not.undefined;
+      expect(JSON.stringify(error)).to.include('"stack":');
+      expect(JSON.stringify(error)).to.include('"message":');
     }
   });
 
