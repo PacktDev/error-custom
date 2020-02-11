@@ -97,6 +97,19 @@ class ErrorCustom extends Error {
   }
 
   /**
+   * Standard method for providing JSON.
+   * It actually returns an object, but this version can be serialized properly.
+   */
+  public toJSON() {
+    const alt = {};
+    Object.getOwnPropertyNames(this).forEach((key) => {
+      alt[key] = this[key];
+    }, this);
+
+    return alt;
+  }
+
+  /**
    * The default logging behaviour for ErrorCustom
    * @param id
    * @param content
