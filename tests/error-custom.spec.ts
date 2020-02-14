@@ -216,7 +216,7 @@ describe('Error Custom', () => {
       const errorFunc = sandbox.stub(winston, 'createLogger').returns({
         error: () => { },
       } as any);
-      await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+      await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
       expect(errorFunc.callCount).to.be.gte(1);
     });
 
@@ -227,7 +227,7 @@ describe('Error Custom', () => {
       const errorFunc = sandbox.stub(winston, 'createLogger').returns({
         error: () => { },
       } as any);
-      await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+      await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
       expect(errorFunc.callCount).to.be.gte(1);
     });
 
@@ -240,7 +240,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -252,7 +252,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -264,7 +264,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -276,7 +276,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -288,7 +288,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -300,7 +300,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
     });

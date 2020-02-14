@@ -6,6 +6,8 @@ import url from 'url';
 import winston from 'winston';
 import Elasticsearch from 'winston-elasticsearch';
 import { Client } from '@elastic/elasticsearch';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'source-map-support/register';
 // eslint-disable-next-line no-unused-vars
 import { IConfig } from './IConfig';
 
@@ -86,6 +88,7 @@ class ErrorCustom extends Error {
     /* istanbul ignore next */
     super(messageVal);
     Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
+    this.toJSON = this.toJSON.bind(this);
     this.statusCode = statusCode;
     this.errorCode = errorCode;
     this.manuallyThrown = true;

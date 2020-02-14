@@ -12,7 +12,7 @@
     "test": "npm run lint && npm run build && npm run unit && npm run nunit",
     "lint": "eslint ./src/**/*.*s",
     "lint:fix": "eslint ./src/**/*.*s ./tests/**/*.*s --fix",
-    "unit": "mocha --require ts-node/register --require source-map-support/register --recursive 'tests/**/*.spec.*s'",
+    "unit": "mocha --require ts-node/register --recursive 'tests/**/*.spec.*s'",
     "nunit": "nyc --check-coverage true mocha --require ts-node/register --recursive 'tests/**/*.spec.*s'",
     "build": "tsc",
     "prepublishOnly": "npm run test && npm run build"
@@ -71,6 +71,7 @@
     "aws-sdk": "^2.570.0",
     "debug": "4.1.1",
     "joi": "14.3.1",
+    "source-map-support": "^0.5.16",
     "uuid": "3.3.2",
     "winston": "3.2.1",
     "winston-elasticsearch": "0.8.2"
