@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import debug from 'debug';
-import joi from 'joi';
+import joi from '@hapi/joi';
 import v4 from 'uuid/v4';
 import url from 'url';
 import winston from 'winston';
@@ -64,16 +64,16 @@ class ErrorCustom extends Error {
     }
 
     // Validation
-    const messageValidation = joi.validate(messageVal, joi.string().required());
-    const statusCodeValidation = joi.validate(
-      statusCode,
-      joi.number().integer().min(200).max(600)
-        .required(),
-    );
-    const errorCodeValidation = joi.validate(
-      errorCode,
-      joi.alternatives([joi.string(), joi.number().integer()]).required(),
-    );
+    const messageValidation = joi.string().required().validate(messageVal);
+    const statusCodeValidation = joi.number().integer().min(200).max(600)
+      .required()
+      .validate(
+        statusCode,
+      );
+    const errorCodeValidation = joi.alternatives([joi.string(), joi.number().integer()]).required()
+      .validate(
+        errorCode,
+      );
     const errors = [];
     if (messageValidation.error) errors.push('Invalid value for message parameter');
     if (statusCodeValidation.error) errors.push('Invalid value for statusCode parameter');
@@ -97,25 +97,29 @@ class ErrorCustom extends Error {
     this.context = context;
 
     // Log to chosen location
-    if (process.env.ELASTIC_LOGGING_URL) {
-      ErrorCustom.sendToElastic(process.env.ELASTIC_LOGGING_URL, this);
-    } else {
-      switch (typeof logFunction) {
-        case 'function':
-          logFunction(this.id, this);
-          break;
-        case 'string':
-          if (url.parse(logFunction).host) {
-            ErrorCustom.sendToElastic(logFunction, this);
+    try {
+      if (process.env.ELASTIC_LOGGING_URL) {
+        ErrorCustom.sendToElastic(process.env.ELASTIC_LOGGING_URL, this);
+      } else {
+        switch (typeof logFunction) {
+          case 'function':
+            logFunction(this.id, this);
             break;
-          } else {
-            ErrorCustom.defaultOutput(this.id, this);
-            break;
-          }
+          case 'string':
+            if (url.parse(logFunction).host) {
+              ErrorCustom.sendToElastic(logFunction, this);
+              break;
+            } else {
+              ErrorCustom.defaultOutput(this.id, this);
+              break;
+            }
 
-        default:
-          ErrorCustom.defaultOutput(this.id, this);
+          default:
+            ErrorCustom.defaultOutput(this.id, this);
+        }
       }
+    } catch (error) {
+      console.error('Logging attempts failed', error);
     }
   }
 
