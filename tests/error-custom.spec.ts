@@ -27,6 +27,23 @@ describe('Error Custom', () => {
       expect(error.stack).to.be.not.undefined;
     });
 
+    it('Constructing the instance - object version', () => {
+      const error = new ErrorCustom({
+        message: 'Error Message',
+        statusCode: 400,
+        errorCode: 1000,
+        context: { productId: '9781234567890' },
+      });
+      expect(error).to.be.instanceof(ErrorCustom);
+      expect(error.message).to.equal('Error Message');
+      expect(error.statusCode).to.equal(400);
+      expect(error.errorCode).to.equal(1000);
+      expect(error.manuallyThrown).to.be.true;
+      expect(error.stack).to.be.not.undefined;
+      expect(error.context).to.be.a('object');
+      expect(error.context.productId).to.eql('9781234567890');
+    });
+
     it('undefined message fails', () => {
       try {
         new ErrorCustom(undefined, 200, 1000000);
@@ -199,7 +216,7 @@ describe('Error Custom', () => {
       const errorFunc = sandbox.stub(winston, 'createLogger').returns({
         error: () => { },
       } as any);
-      await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+      await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
       expect(errorFunc.callCount).to.be.gte(1);
     });
 
@@ -210,7 +227,7 @@ describe('Error Custom', () => {
       const errorFunc = sandbox.stub(winston, 'createLogger').returns({
         error: () => { },
       } as any);
-      await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+      await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
       expect(errorFunc.callCount).to.be.gte(1);
     });
 
@@ -223,7 +240,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -235,7 +252,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -247,7 +264,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -259,7 +276,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -271,7 +288,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
 
@@ -283,7 +300,7 @@ describe('Error Custom', () => {
         const errorFunc = sandbox.stub(winston, 'createLogger').returns({
           error: () => { },
         } as any);
-        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, uuid(), {});
+        await (ErrorCustom as any).sendToElastic(ELASTIC_LOGGING_URL, new ErrorCustom(uuid(), 500, 123455), {});
         expect(errorFunc.callCount).to.be.gte(1);
       });
     });
